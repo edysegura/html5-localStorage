@@ -1,96 +1,90 @@
-/* JavaScript Document */
-
 var SubscriberDAO = {
+  DB_KEY: 'subscribers',
+  NEW: 1,
+  UPDATE: 2,
 
-	DB_KEY: "subscribers",
-	NEW: 1,
-	UPDATE: 2,
+  list: [],
 
-	list: [], 
+  save: function(subscriber, tableController) {
+    var list = SubscriberDAO.list,
+      index = SubscriberDAO.getIndex(subscriber)
 
-	save: function(subscriber, tableController) {
-		var list  = SubscriberDAO.list,
-		    index = SubscriberDAO.getIndex(subscriber);
-		
-		if(index > -1) {
-			list[index] = subscriber;
-			return SubscriberDAO.UPDATE;
-		}
-		else {
-			list.push(subscriber);
-			if(tableController) {
-				tableController.addItem(subscriber);
-			}
-		}
-		
-		SubscriberDAO.serializeAndSave();
+    if (index > -1) {
+      list[index] = subscriber
+      return SubscriberDAO.UPDATE
+    } else {
+      list.push(subscriber)
+      if (tableController) {
+        tableController.addItem(subscriber)
+      }
+    }
 
-		return SubscriberDAO.NEW;
-	},
+    SubscriberDAO.serializeAndSave()
 
-	retrieve: function() {
-		var list = SubscriberDAO.list;
-		if(list && list.length > 0) {
-			return list;
-		}
-		return null;
-	},
+    return SubscriberDAO.NEW
+  },
 
-	get: function(email) {
-		var list  = SubscriberDAO.list,
-		    index = SubscriberDAO.getIndex({'email': email});
+  retrieve: function() {
+    var list = SubscriberDAO.list
+    if (list && list.length > 0) {
+      return list
+    }
+    return null
+  },
 
-		if (index > -1) {
-			var subscriber = list[index];
-			return subscriber;
-		}
+  get: function(email) {
+    var list = SubscriberDAO.list,
+      index = SubscriberDAO.getIndex({ email: email })
 
-		return null;
-	},
+    if (index > -1) {
+      var subscriber = list[index]
+      return subscriber
+    }
 
-	getIndex: function(subscriber) {
-		var list = SubscriberDAO.list,
-		    item = {};
+    return null
+  },
 
-		for (var i = 0; i < list.length; i++) {
-			item = list[i];
-			if(item.email == subscriber.email) {
-				return i;
-			}
-		}
+  getIndex: function(subscriber) {
+    var list = SubscriberDAO.list,
+      item = {}
 
-		return -1;
-	},
+    for (var i = 0; i < list.length; i++) {
+      item = list[i]
+      if (item.email == subscriber.email) {
+        return i
+      }
+    }
 
-	delete: function(email) {
-		var list  = SubscriberDAO.list,
-		    index = SubscriberDAO.getIndex({'email': email});
+    return -1
+  },
 
-		if (index > -1) {
-			//https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/splice
-			list.splice(index, 1);
-			return true;
-		}
+  delete: function(email) {
+    var list = SubscriberDAO.list,
+      index = SubscriberDAO.getIndex({ email: email })
 
-		return false;
-	},
+    if (index > -1) {
+      //https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/splice
+      list.splice(index, 1)
+      return true
+    }
 
-	serializeAndSave: function() {
-		var list = SubscriberDAO.list;
-		if(list && list.length > 0) {
-			var json = JSON.stringify(SubscriberDAO.list);
-			window.localStorage.setItem(SubscriberDAO.DB_KEY, json);
-		}
-	},
+    return false
+  },
 
-	unserializeAndParse: function() {
-		var json = window.localStorage.getItem(SubscriberDAO.DB_KEY);
-		if(json) {
-			SubscriberDAO.list = JSON.parse(json);
-		}
-		else {
-			SubscriberDAO.list = [];
-		}
-	}
+  serializeAndSave: function() {
+    var list = SubscriberDAO.list
+    if (list && list.length > 0) {
+      var json = JSON.stringify(SubscriberDAO.list)
+      window.localStorage.setItem(SubscriberDAO.DB_KEY, json)
+    }
+  },
 
-};
+  unserializeAndParse: function() {
+    var json = window.localStorage.getItem(SubscriberDAO.DB_KEY)
+    if (json) {
+      SubscriberDAO.list = JSON.parse(json)
+    } else {
+      SubscriberDAO.list = []
+    }
+  }
+}
