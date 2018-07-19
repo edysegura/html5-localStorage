@@ -1,11 +1,10 @@
-/* CSS Document */
-
 .wrapper {
-	width: 600px;
-	margin: 20px auto;
+  width: 600px;
+  margin: 20px auto;
 }
+
 .form-horizontal .control-label {
-	width: 50px;
+  width: 50px;
 }
 
 .form-horizontal .controls {
@@ -13,6 +12,5 @@
 }
 
 #tb-subscriber .btn {
-	margin-right: 4px;
+  margin-right: 4px;
 }
-
